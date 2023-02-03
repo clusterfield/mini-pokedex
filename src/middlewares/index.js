@@ -8,9 +8,8 @@ export const upperCaseFirstLetterName = (store) =>(next) => (actionInfo) => {
     const pokemonsUp = actionInfo.payload.map(pokemon=>{
         
         const upperPok = pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)
-        return {name: upperPok}
+        return {...pokemon, name: upperPok}
     })
-
     
     const updatedPayload = {
         ...actionInfo,

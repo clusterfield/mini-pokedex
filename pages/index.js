@@ -4,7 +4,7 @@ import Layout from "./../src/Layouts/main/Layout";
 import { useEffect, useState } from "react";
 import { PokemonCard } from "@/components/PokemonCard";
 import { PokemonList } from "@/components/PokemonList/PokemonList";
-import { getPokemons } from "@/src/Layouts/main/api";
+import { getPokemons, getPokemonDetails } from "@/src/api";
 
 import { setPokemons } from "@/src/actions";
 import { useDispatch, useSelector } from "react-redux";
@@ -18,7 +18,10 @@ function Home() {
   useEffect(() => {
     const fetchPokemons = async () => {
       const pokemonsRes = await getPokemons();
-      dispatch(setPokemons(pokemonsRes));
+      const pokemonsDetails = await Promise.all(
+        pokemonsRes.map((pokemon) => getPokemonDetails(pokemon))
+      );
+      dispatch(setPokemons(pokemonsDetails));
     };
 
     fetchPokemons();
